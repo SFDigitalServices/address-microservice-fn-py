@@ -15,7 +15,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         response = requests.get(
             os.getenv('EAS_API_URL'),
             params=req.params,
-            headers={'X-App-Token': os.getenv('EAS_APP_TOKEN')}
+            headers={'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')}
         )
 
         headers = {
