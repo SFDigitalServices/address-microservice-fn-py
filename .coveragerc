@@ -1,5 +1,7 @@
 [run]
 source =
+    abe_json
+    abe_lookup
     eas_json
     eas_lookup
     shared_code

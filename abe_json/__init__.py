@@ -1,4 +1,4 @@
-""" eas/json init file """
+""" abe/json init file """
 import os
 import json
 import logging
@@ -8,16 +8,17 @@ import azure.functions as func
 from shared_code.common import func_json_response,abe_to_eas_fields_query
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    """ main function for eas/json """
+    """ main function for abe/json """
     logging.info('ABE JSON processed a request.')
 
     try:
         params  = req.params.copy()
-        if params['format'] :
+        if "format" in params:
             if params['format'] == "eas":
-                if "parcel_number" in params['$where'] and "parcel_number" not in params['$select']:
+                if "$where" in params and "parcel_number" in params['$where'] \
+                    and ("$select" not in params or "parcel_number" not in params['$select']):
                     params['$select'] += ",parcel_number"
-                if params['$select'] :
+                if "$select" in params:
                     params['$select'] = abe_to_eas_fields_query(params['$select'])
             del params['format']
         response = requests.get(

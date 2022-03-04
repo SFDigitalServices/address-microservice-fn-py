@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         params  = req.params.copy()
-        if params['search'] :
+        if 'search' in params:
             params['$where'] = \
                 "address like upper('{}%') AND parcel_number IS NOT NULL"\
                 .format(params['search'])

@@ -14,11 +14,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         params  = req.params.copy()
 
-        if params['search'] :
+        if 'search' in params :
             params['$where'] = \
                 "address like upper('{}%') AND block IS NOT NULL and lot IS NOT NULL"\
                 .format(params['search'])
-            if params['$select'] :
+            if '$select' in params:
                 params['$select'] = abe_to_eas_fields_query(params['$select'])
             else:
                 params['$select'] = abe_to_eas_fields_query("address")
