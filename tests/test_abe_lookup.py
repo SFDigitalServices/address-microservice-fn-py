@@ -19,7 +19,6 @@ def test_abe_lookup_function():
 
         # Call the function.
         resp = main(req)
-
         resp_json = json.loads(resp.get_body())
 
         # Check the output.

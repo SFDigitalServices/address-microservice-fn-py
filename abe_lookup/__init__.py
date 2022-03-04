@@ -26,11 +26,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         response = requests.get(
             os.getenv('ABE_API_URL'),
-            params=params,
             headers={
                 'Authorization': 'Basic ' + os.getenv('ADDRESS_SVC_AUTH_API_KEY'),
                 'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')
-            }
+            },
+            params=params
         )
 
         headers = {

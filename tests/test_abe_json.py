@@ -22,6 +22,7 @@ def test_abe_json_function():
 
         # Call the function.
         resp = main(req)
+
         # print response body
         print(resp.get_body())
         # loads response body as json
@@ -33,12 +34,14 @@ def test_abe_json_function():
 
 def test_abe_json_function_request_error():
     """ test_abe_json_function_func_error """
+
     # Construct a mock HTTP request.
     req = func.HttpRequest(
         method='GET',
         body=None,
         url='/api/abe/json',
         params={'hello': 'world'})
+
 
     # Call the function.
     resp = main(req)
