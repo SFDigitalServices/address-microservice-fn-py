@@ -45,10 +45,10 @@ Query ABE for list of addresses via partial address string. Example to be used f
 Query and filter ABE data in JSON
 ### [Simple Filtering](https://dev.socrata.com/docs/filtering.html)
 
-```
+
 Example filter by `block`, and `lot`
 ```
-$ curl https://<host>/api/abe/json?block=3739&lot=008
+$ curl https://<host>/api/abe/json?block=3506&lot=001
 ```
 
 ### [Queries](https://dev.socrata.com/docs/queries/)

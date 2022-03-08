@@ -29,10 +29,10 @@ def abe_to_eas_fields_query(query_string):
     subs = {
         "address" : address_field,
         "parcel_number" : "block || lot as parcel_number",
-        "address_number" : "property_street_number",
-        "address_number_suffix" : "property_street_number_sfx",
-        "street_name" : "property_street_name",
-        "street_type" : "property_street_sfx",
+        "address_number" : "property_street_number as address_number",
+        "address_number_suffix" : "property_street_number_sfx as address_number_suffix",
+        "street_name" : "property_street_name as street_name",
+        "street_type" : "property_street_sfx as street_type",
         "unit_number" : "greatest(property_unit, '') || greatest(property_unit_sfx, '') as unit_number",
         "zip_code" : "'' as zip_code"
 
