@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         params  = req.params.copy()
-        if params['search'] :
+        if 'search' in params:
             params['$where'] = \
                 "address like upper('{}%') AND parcel_number IS NOT NULL"\
                 .format(params['search'])
@@ -22,12 +22,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         response = requests.get(
             os.getenv('EAS_API_URL'),
             params=params,
-            headers={'X-App-Token': os.getenv('EAS_APP_TOKEN')}
+            headers={'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')}
         )
 
         headers = {
             "Cache-Control": "s-maxage=1, stale-while-revalidate, max-age={}"\
-                .format(os.getenv('EAS_CACHE_MAX_AGE')),
+                .format(os.getenv('ADDRESS_SVC_CACHE_MAX_AGE')),
             "Access-Control-Allow-Origin": "*"
         }
 

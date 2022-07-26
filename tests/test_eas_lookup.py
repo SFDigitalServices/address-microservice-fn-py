@@ -28,7 +28,7 @@ def test_eas_lookup_function():
 def test_eas_lookup_function_error():
     """ test_eas_lookup_function_error """
     # Construct a mock HTTP request.
-    with patch.dict("os.environ", {"EAS_API_URL": "", "EAS_APP_TOKEN": ""}):
+    with patch.dict("os.environ", {"EAS_API_URL": "", "ADDRESS_SVC_APP_TOKEN": ""}):
         req = func.HttpRequest(
             method='GET',
             body=None,

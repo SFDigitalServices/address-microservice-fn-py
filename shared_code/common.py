@@ -1,4 +1,5 @@
 """ Common shared functions """
+import re
 import json
 import jsend
 import azure.functions as func
@@ -20,3 +21,23 @@ def func_json_response(response, headers=None):
         mimetype="application/json",
         headers=headers
     )
+
+def abe_to_eas_fields_query(query_string):
+    """ replace abe fields with EAS fields in query string"""
+    #pylint: disable=line-too-long
+    address_field = "trim(property_street_number || greatest(property_street_number_sfx, '') || ' ' || property_street_name ||  ' ' || property_street_sfx || ' ' || greatest(property_unit, '') || greatest(property_unit_sfx, '')) as address"
+    subs = {
+        "address" : address_field,
+        "parcel_number" : "block || lot as parcel_number",
+        "address_number" : "property_street_number as address_number",
+        "address_number_suffix" : "property_street_number_sfx as address_number_suffix",
+        "street_name" : "property_street_name as street_name",
+        "street_type" : "property_street_sfx as street_type",
+        "unit_number" : "greatest(property_unit, '') || greatest(property_unit_sfx, '') as unit_number",
+        "zip_code" : "'' as zip_code"
+
+    }
+    for old, new in subs.items():
+        query_string = re.sub(r"\b%s\b" % old,new,query_string)
+
+    return query_string
