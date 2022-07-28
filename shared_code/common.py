@@ -1,7 +1,9 @@
 """ Common shared functions """
+import os
 import re
 import json
 import jsend
+import requests
 import azure.functions as func
 
 def func_json_response(response, headers=None):
@@ -58,3 +60,62 @@ def avs_to_eas_fields_query(query_string):
         query_string = re.sub(r"\b%s\b" % old,new,query_string)
 
     return query_string
+
+def error_response(err):
+    """ return error response"""
+    msg_error = "This endpoint encountered an error. {}".format(err)
+    func_response = json.dumps(jsend.error(msg_error))
+    return func.HttpResponse(func_response, status_code=500)
+
+def api_json_request(api_url, field_mapping_function, params):
+    """ make json api request """
+    if "format" in params:
+        if params['format'] == "eas":
+            if "$where" in params and "parcel_number" in params['$where'] \
+                and ("$select" not in params or "parcel_number" not in params['$select']):
+                params['$select'] += ",parcel_number"
+            if "$select" in params:
+                params['$select'] = field_mapping_function(params['$select'])
+        del params['format']
+    response = requests.get(
+        api_url,
+        params=params,
+        headers={
+            'Authorization': 'Basic ' + os.getenv('ADDRESS_SVC_AUTH_API_KEY'),
+            'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')
+        }
+    )
+    print(params)
+    headers = {
+        "Access-Control-Allow-Origin": "*"
+    }
+    return func_json_response(response, headers)
+
+def api_lookup_request(api_url, field_mapping_function, params):
+    """ make search api request """
+    if 'search' in params :
+        params['$where'] = \
+            "address like upper('{}%') AND block IS NOT NULL and lot IS NOT NULL"\
+            .format(params['search'])
+        if '$select' in params:
+            params['$select'] = field_mapping_function(params['$select'])
+        else:
+            params['$select'] = field_mapping_function("address")
+        del params['search']
+
+    response = requests.get(
+        api_url,
+        headers={
+            'Authorization': 'Basic ' + os.getenv('ADDRESS_SVC_AUTH_API_KEY'),
+            'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')
+        },
+        params=params
+    )
+
+    headers = {
+        "Cache-Control": "s-maxage=1, stale-while-revalidate, max-age={}"\
+            .format(os.getenv('ADDRESS_SVC_CACHE_MAX_AGE')),
+        "Access-Control-Allow-Origin": "*"
+    }
+
+    return func_json_response(response, headers)
