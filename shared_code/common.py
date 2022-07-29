@@ -47,11 +47,12 @@ def abe_to_eas_fields_query(query_string):
 def avs_to_eas_fields_query(query_string):
     """ replace abe fields with AVS fields in query string"""
     #pylint: disable=line-too-long
-    address_field = "trim(street_number ||  ' ' || avs_street_name ||  ' ' || avs_street_sfx || ' ' || greatest(unit, '')) as address"
+    address_field = "trim(street_number || greatest(street_number_sfx, '') ||  ' ' || avs_street_name ||  ' ' || avs_street_sfx || ' ' || greatest(unit, '')) as address"
     subs = {
         "address" : address_field,
         "parcel_number" : "block || lot as parcel_number",
         "address_number" : "street_number as address_number",
+        "address_number_suffix": "street_number_sfx as address_number_suffix",
         "street_name" : "avs_street_name as street_name",
         "street_type" : "avs_street_sfx as street_type",
         "unit_number" : "greatest(unit, '') as unit_number"
