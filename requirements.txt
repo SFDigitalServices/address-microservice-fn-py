@@ -7,7 +7,7 @@
 
 -i https://pypi.org/simple
 azure-functions==1.7.2
-certifi==2021.5.30
+certifi==2023.7.22
 charset-normalizer==2.0.3; python_version >= '3'
 idna==3.2; python_version >= '3'
 pyjsend==0.2.2
