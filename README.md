@@ -80,11 +80,11 @@ Currently Azure Python Functions [does not support pipenv](https://github.com/Az
 sample usage:  
 production
 ```
-$ pipenv lock --requirements > requirements.txt
+$ pipenv requirements > requirements.txt
 ```
 development
 ```
-pipenv lock --requirements --dev > requirements-dev.txt
+pipenv requirements --dev > requirements-dev.txt
 ```
 
 #### azure-functions-worker
