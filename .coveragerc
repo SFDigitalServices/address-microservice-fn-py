@@ -1,9 +1,9 @@
 [run]
 source =
-    abe_json
-    abe_lookup
-    avs_json
-    avs_lookup
-    eas_json
-    eas_lookup
-    shared_code
+    ./
+omit = 
+    .venv/*
+    tests/*
+
+[report]
+show_missing = true
