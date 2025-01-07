@@ -58,6 +58,19 @@ Example query `property_street_number`, `property_street_number_sfx`, `property_
 $ curl https://<host>/api/abe/json?$select=property_street_number,property_street_number_sfx,property_street_name,property_street_sfx,property_unit,block,lot&$where=block%20=%270834%27%20AND%20lot=%27144%27
 ```
 
+## `api/status/http`
+
+Query http status of the serverless function.
+
+### Query
+
+Example
+
+```sh
+curl https://<host>/api/status/http
+
+{"status": "success", "data": {"message": "200 OK"}}
+```
 
 ## Deployment notes
 #### :warning: [Linux Consumption] Successful slot swaps automatically reverted after a few minutes :warning:
@@ -80,11 +93,11 @@ Currently Azure Python Functions [does not support pipenv](https://github.com/Az
 sample usage:  
 production
 ```
-$ pipenv lock --requirements > requirements.txt
+$ pipenv requirements > requirements.txt
 ```
 development
 ```
-pipenv lock --requirements --dev > requirements-dev.txt
+pipenv requirements --dev > requirements-dev.txt
 ```
 
 #### azure-functions-worker

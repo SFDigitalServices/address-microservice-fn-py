@@ -1,4 +1,5 @@
 """ eas/json init file """
+
 import os
 import json
 import logging
@@ -7,25 +8,25 @@ import jsend
 import azure.functions as func
 from shared_code.common import func_json_response
 
+
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    """ main function for eas/json """
-    logging.info('EAS JSON processed a request.')
+    """main function for eas/json"""
+    logging.info("EAS JSON processed a request.")
 
     try:
         response = requests.get(
-            os.getenv('EAS_API_URL'),
+            os.getenv("EAS_API_URL"),
             params=req.params,
-            headers={'X-App-Token': os.getenv('ADDRESS_SVC_APP_TOKEN')}
+            headers={"X-App-Token": os.getenv("ADDRESS_SVC_APP_TOKEN")},
+            timeout=600,
         )
 
-        headers = {
-            "Access-Control-Allow-Origin": "*"
-        }
+        headers = {"Access-Control-Allow-Origin": "*"}
         return func_json_response(response, headers)
 
-    #pylint: disable=broad-except
+    # pylint: disable=broad-except
     except Exception as err:
         logging.error("EAS JSON error occurred: %s", err)
-        msg_error = "This endpoint encountered an error. {}".format(err)
+        msg_error = f"This endpoint encountered an error. {err}"
         func_response = json.dumps(jsend.error(msg_error))
         return func.HttpResponse(func_response, status_code=500)
