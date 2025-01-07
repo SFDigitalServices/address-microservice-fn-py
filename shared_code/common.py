@@ -32,7 +32,7 @@ def func_jsend_response(data, headers=None, status_code=200):
             if not isinstance(data, dict):
                 data = json.loads(data)
         except (TypeError, ValueError) as _err:
-            data = {"json": data}
+            data = {"message": data}
         if 200 <= status_code < 300:
             func_response = json.dumps(jsend.success(data))
         else:

@@ -19,11 +19,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if req.get_body() and len(req.get_body()):
             status_code = 202
             # pylint: disable=protected-access
-            body = {"message": "202 Accepted"}
+            body = "202 Accepted"
         else:
             status_code = 200
             # pylint: disable=protected-access
-            body = {"message": "200 OK"}
+            body = "200 OK"
 
         headers = {"Access-Control-Allow-Origin": "*"}
         return func_jsend_response(body, headers, status_code)
